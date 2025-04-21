@@ -15,6 +15,10 @@ def dfs(graph, start):
     """
     Выполняет обход графа в глубину и возвращает путь обхода
     """
+    # Проверка на корректность входного параметра
+    if start not in graph:
+        raise ValueError(f"Вершина {start} отсутствует в графе")
+    
     visited = []
     stack = [start]
     
@@ -33,6 +37,12 @@ def find_path_length(graph, start, end):
     """
     Находит длину пути от вершины start до вершины end
     """
+    # Проверка на корректность входных параметров
+    if start not in graph:
+        raise ValueError(f"Начальная вершина {start} отсутствует в графе")
+    if end not in graph:
+        raise ValueError(f"Конечная вершина {end} отсутствует в графе")
+    
     if start == end:
         return 0
     
@@ -61,28 +71,37 @@ def main():
     edges = []
     
     while edges_input:
-        u, v = map(int, edges_input.split())
-        edges.append((u, v))
+        try:
+            u, v = map(int, edges_input.split())
+            edges.append((u, v))
+        except ValueError:
+            print("Ошибка: введите два целых числа, разделенных пробелом")
         edges_input = input()
-    
-    choice = input("Выберите режим (1 - обход графа, 2 - найти длину пути): ")
     
     # Строим граф
     graph = build_graph(edges)
     
+    choice = input("Выберите режим (1 - обход графа, 2 - найти длину пути): ")
+    
     if choice == "1":
-        start_vertex = int(input("Введите стартовую вершину: "))
-        path = dfs(graph, start_vertex)
-        print(f"Путь обхода: {', '.join(map(str, path))}")
+        try:
+            start_vertex = int(input("Введите стартовую вершину: "))
+            path = dfs(graph, start_vertex)
+            print(f"Путь обхода: {', '.join(map(str, path))}")
+        except ValueError as e:
+            print(f"Ошибка: {e}")
     elif choice == "2":
-        start_vertex = int(input("Введите начальную вершину: "))
-        end_vertex = int(input("Введите конечную вершину: "))
-        path_length = find_path_length(graph, start_vertex, end_vertex)
-        
-        if path_length >= 0:
-            print(f"Длина пути от вершины {start_vertex} до вершины {end_vertex}: {path_length}")
-        else:
-            print(f"Путь от вершины {start_vertex} до вершины {end_vertex} не существует")
+        try:
+            start_vertex = int(input("Введите начальную вершину: "))
+            end_vertex = int(input("Введите конечную вершину: "))
+            path_length = find_path_length(graph, start_vertex, end_vertex)
+            
+            if path_length >= 0:
+                print(f"Длина пути от вершины {start_vertex} до вершины {end_vertex}: {path_length}")
+            else:
+                print(f"Путь от вершины {start_vertex} до вершины {end_vertex} не существует")
+        except ValueError as e:
+            print(f"Ошибка: {e}")
     else:
         print("Некорректный выбор режима")
 
