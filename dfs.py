@@ -3,9 +3,9 @@ def build_graph(edges):
     graph = {}
     for u, v in edges:
         # Добавляем обе вершины в граф, если их еще нет
-        if u not in graph:
+    if u not in graph:
             graph[u] = []
-        if v not in graph:
+     if v not in graph:
             graph[v] = []
         # Добавляем ребро от У К В
         graph[u].append(v)
@@ -32,26 +32,11 @@ def dfs(graph, start):
     return path
 
 def find_path_length(graph, start, end):
-    """
-    Находит длину пути от вершины start до вершины end
-    Возвращает -1, если путь не найден
-    
-    Аргументы:
-    graph -- граф в виде словаря смежности
-    start -- начальная вершина
-    end -- конечная вершина
-    
-    Возвращает:
-    длину кратчайшего пути или -1, если путь не существует
-    
-    Исключения:
-    ValueError -- если вершины start или end отсутствуют в графе
-    """
     # Проверка наличия вершин в графе
     if start not in graph or end not in graph:
         raise ValueError(f"Вершины {start} и/или {end} отсутствуют в графе")
     
-    visited = set()  # Множество посещенных вершин
+    visited = set()  
     path_length = -1 # Длина пути (по умолчанию -1, если путь не найден)
     found = False    # Флаг нахождения пути
     
@@ -64,7 +49,7 @@ def find_path_length(graph, start, end):
             found = True
             return
         
-        # Отмечаем вершину как посещенную
+     
         visited.add(vertex)
         
         # Перебираем всех соседей текущей вершины
@@ -101,31 +86,29 @@ def main():
     
     if mode == '1':
         try:
-            # Режим обхода в глубину
+         # Режим обхода в глубину
             start_vertex = int(input("Введите стартовую вершину: "))
             if start_vertex not in graph:
-                raise ValueError(f"Вершина {start_vertex} отсутствует в графе")
+              raise ValueError(f"Вершина {start_vertex} отсутствует в графе")
             
             path = dfs(graph, start_vertex)
-            print("Путь обхода в глубину:", ", ".join(map(str, path)))
         except ValueError as e:
             print(f"Ошибка: {e}")
     elif mode == '2':
         try:
             # Режим поиска длины пути
-            start_vertex = int(input("Введите начальную вершину: "))
+        start_vertex = int(input("Введите начальную вершину: "))
             end_vertex = int(input("Введите конечную вершину: "))
             
             path_length = find_path_length(graph, start_vertex, end_vertex)
-            
+        
             if path_length != -1:
-                print(f"Длина пути от {start_vertex} до {end_vertex}: {path_length}")
+              print(f"Длина пути от {start_vertex} до {end_vertex}: {path_length}")
             else:
                 print(f"Путь от {start_vertex} до {end_vertex} не найден")
         except ValueError as e:
-            print(f"Ошибка: {e}")
-    else:
-        print("Неправильный режим")
+           print(f"Ошибка: {e}")
+    else:        print("Неправильный режим")
 
 if __name__ == "__main__":
     main() 
